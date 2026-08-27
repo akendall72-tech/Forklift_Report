@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forklift Certification Expiration Report</title><style>
+:root { --green-900:#0f2b1f; --green-800:#16382a; --green-700:#1f4d38; --green-600:#2c6b4d; --green-500:#3d8a66;
+  --gold-500:#c79a2b; --gold-400:#dcb84a; --gold-100:#faf3df; --bg:#f4f5f2; --card:#ffffff; --text:#1f2a24; --muted:#64716a; --border:#e2e6e1;
+  --red-600:#b3352c; --red-100:#fbeaea; --blue-600:#3a6ea5; --blue-100:#e9f0f7; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+.header { background:linear-gradient(135deg,var(--green-900) 0%,var(--green-700) 55%,var(--green-600) 100%); color:#fff; padding:40px 32px 32px; position:relative; overflow:hidden; }
+.header::after { content:''; position:absolute; right:-60px; top:-60px; width:260px; height:260px; border-radius:50%; background:rgba(220,184,74,0.12); }
+.header-inner { max-width:1180px; margin:0 auto; position:relative; z-index:1; }
+.eyebrow { text-transform:uppercase; letter-spacing:0.12em; font-size:12px; color:var(--gold-400); font-weight:700; margin-bottom:8px; }
+.header h1 { margin:0 0 6px; font-size:30px; font-weight:700; letter-spacing:-0.01em; }
+.header .sub { color:rgba(255,255,255,0.75); font-size:14px; }
+.summary-grid { max-width:1180px; margin:-28px auto 0; padding:0 32px; display:grid; grid-template-columns:repeat(6,1fr); gap:16px; position:relative; z-index:2; }
+.summary-card { background:var(--card); border-radius:12px; padding:18px 18px; box-shadow:0 4px 18px rgba(15,43,31,0.10); border-top:3px solid var(--gold-500); }
+.summary-card.alert { border-top-color:var(--red-600); background:linear-gradient(180deg,var(--red-100) 0%,var(--card) 55%); }
+.summary-card .num { font-size:26px; font-weight:700; color:var(--green-800); }
+.summary-card.alert .num { color:var(--red-600); }
+.summary-card .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:2px; }
+main { max-width:1180px; margin:0 auto; padding:44px 32px 60px; }
+section { margin-bottom:48px; }
+.section-title { font-size:20px; font-weight:700; color:var(--green-800); margin-bottom:4px; display:flex; align-items:center; gap:10px; }
+.section-title.alert-title { color:var(--red-600); }
+.section-title .rule { flex:1; height:1px; background:var(--border); }
+.section-desc { color:var(--muted); font-size:13.5px; margin-bottom:20px; }
+.table-wrap { overflow-x:auto; background:var(--card); border-radius:10px; box-shadow:0 1px 4px rgba(15,43,31,0.06); }
+.data-table { width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px; }
+.data-table thead th { background:var(--green-800); color:#fff; text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em; padding:10px 14px; cursor:pointer; white-space:nowrap; user-select:none; }
+.data-table thead th:hover { background:var(--green-700); }
+.sort-arrow::after { content:'\2195'; margin-left:6px; opacity:0.5; font-size:10px; }
+.data-table tbody td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#fafbf9; }
+.data-table tbody tr[data-status="notcert"] td:first-child, .data-table tbody tr[data-status="expired"] td:first-child { box-shadow:inset 3px 0 0 var(--red-600); }
+.data-table tbody tr[data-status="inprogress"] td:first-child { box-shadow:inset 3px 0 0 var(--blue-600); }
+.col-num { color:var(--muted); width:32px; }
+.col-name { font-weight:600; color:var(--green-800); white-space:nowrap; }
+.sub-note { font-size:11px; color:var(--muted); margin-top:2px; }
+.badge { display:inline-block; font-size:11px; font-weight:700; padding:2px 9px; border-radius:20px; text-transform:uppercase; letter-spacing:0.03em; white-space:nowrap; }
+.badge-expired { background:var(--red-100); color:var(--red-600); border:1px solid #e08a83; }
+.badge-expiring { background:var(--gold-100); color:var(--gold-500); border:1px solid var(--gold-400); }
+.badge-current { background:#e9f2ec; color:var(--green-600); border:1px solid var(--green-500); }
+.badge-inprogress { background:var(--blue-100); color:var(--blue-600); border:1px solid #9db9d4; }
+.badge-notcert { background:var(--red-100); color:var(--red-600); border:1px solid #e08a83; font-weight:800; }
+.legend { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:18px; font-size:12.5px; color:var(--muted); }
+.legend span.badge { margin-right:4px; }
+.filter-bar { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+.filter-btn { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:7px 16px; font-size:12.5px; font-weight:600; color:var(--muted); cursor:pointer; font:inherit; }
+.filter-btn.active { background:var(--green-800); color:#fff; border-color:var(--green-800); }
+.search-box { flex:1; min-width:200px; padding:8px 14px; border-radius:20px; border:1px solid var(--border); font-size:13px; font:inherit; }
+.tab-bar { display:flex; gap:6px; border-bottom:2px solid var(--border); margin-bottom:20px; flex-wrap:wrap; }
+.tab-btn { background:none; border:none; padding:10px 18px; font-size:14px; font-weight:600; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; font:inherit; position:relative; }
+.tab-btn .tab-count { background:var(--border); color:var(--text); font-size:11px; padding:1px 7px; border-radius:20px; margin-left:6px; }
+.tab-btn .tab-flag { background:var(--red-600); color:#fff; font-size:10px; font-weight:700; padding:1px 6px; border-radius:20px; margin-left:5px; }
+.tab-btn .tab-flag-soft { background:var(--gold-500); }
+.tab-btn.active { color:var(--green-800); border-bottom-color:var(--gold-500); }
+.tab-btn.active .tab-count { background:var(--gold-100); color:var(--gold-500); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+.loc-summary { font-size:13px; color:var(--muted); margin-bottom:14px; }
+.empty-state { color:var(--muted); font-size:13px; font-style:italic; padding:20px; text-align:center; }
+.exclusion-note { max-width:1180px; margin:8px auto 0; padding:0 32px; font-size:11.5px; color:var(--muted); }
+footer { text-align:center; color:var(--muted); font-size:12px; padding:24px; }
+@media (max-width:980px) { .summary-grid{grid-template-columns:repeat(3,1fr);} }
+@media (max-width:600px) { .summary-grid{grid-template-columns:repeat(2,1fr);} }
+</style></head><body>
+<div class="header"><div class="header-inner">
+  <div class="eyebrow">AGRI-SERVICE, LLC &middot; Training Department</div>
+  <h1>Forklift Certification Expiration Report</h1>
+  <div class="sub">Export Date: Aug 26, 2026 MDT &nbsp;&middot;&nbsp; Scope: All Above units &amp; Units</div>
+</div></div>
+<div class="summary-grid">
+  <div class="summary-card"><div class="num">86</div><div class="label">Total Employees</div></div>
+  <div class="summary-card alert"><div class="num">25</div><div class="label">Not Certified</div></div>
+  <div class="summary-card alert"><div class="num">3</div><div class="label">In Progress</div></div>
+  <div class="summary-card alert"><div class="num">0</div><div class="label">Expired</div></div>
+  <div class="summary-card"><div class="num">0</div><div class="label">Expiring &le; 90 Days</div></div>
+  <div class="summary-card"><div class="num">58</div><div class="label">Current</div></div>
+</div>
+<div class="exclusion-note">Excluded from this report as non-employee/equipment records: FT Tractor.</div>
+<main>
+  <section>
+    <div class="section-title alert-title">&#9888; Needs Attention &mdash; 28 without a valid certificate<div class="rule"></div></div>
+    <div class="section-desc">Not Certified and In Progress employees have no valid forklift certification on file today and are the biggest compliance risk, followed by Expired, then certificates Expiring within 90 days.</div>
+    <div class="table-wrap"><table class="data-table" id="tbl-priority">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-priority',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-priority',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-priority',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-priority',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-priority',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-priority',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">1</td>
+      <td class="col-name">Bair, Cody</td>
+      <td>Sales</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">2</td>
+      <td class="col-name">Bingham, Peter</td>
+      <td>Sales</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Blackfoot">
+      <td class="col-num">3</td>
+      <td class="col-name">Brooks, Kip</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">4</td>
+      <td class="col-name">Carver, Aiden</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Twin Falls">
+      <td class="col-num">5</td>
+      <td class="col-name">Coriell, Mark</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">6</td>
+      <td class="col-name">Cravens, Jon</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">7</td>
+      <td class="col-name">Crowner, Robin</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">8</td>
+      <td class="col-name">Danz, Paul</td>
+      <td>Trucking</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">9</td>
+      <td class="col-name">Dub, Kelly</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">10</td>
+      <td class="col-name">Gardiner, Jeffrey</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Blackfoot">
+      <td class="col-num">11</td>
+      <td class="col-name">Hatch, Russell</td>
+      <td>Trucking</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">12</td>
+      <td class="col-name">Kincaid, Mike</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">13</td>
+      <td class="col-name">Maxfield, Darius</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Sugar City">
+      <td class="col-num">14</td>
+      <td class="col-name">Merrill, Dugan</td>
+      <td>Sales</td>
+      <td>Sugar City</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">15</td>
+      <td class="col-name">Orton, Kevin</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">16</td>
+      <td class="col-name">Perkins, Anna</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">17</td>
+      <td class="col-name">Schagel, Addison</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">18</td>
+      <td class="col-name">Scott, Jaycob</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">19</td>
+      <td class="col-name">Sewell, Rick</td>
+      <td>Administration</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">20</td>
+      <td class="col-name">Spencer, Casey</td>
+      <td>Trucking</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pullman">
+      <td class="col-num">21</td>
+      <td class="col-name">Thompson, Devin</td>
+      <td>Parts</td>
+      <td>Pullman</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">22</td>
+      <td class="col-name">Valencia Villarreal, Victor</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">23</td>
+      <td class="col-name">Wheeler, John</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">24</td>
+      <td class="col-name">Willman, Kevin</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Marsing">
+      <td class="col-num">25</td>
+      <td class="col-name">Withington, Takoda</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="inprogress" data-store="Marsing">
+      <td class="col-num">26</td>
+      <td class="col-name">Anderson, Patrick</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="inprogress" data-store="Blackfoot">
+      <td class="col-num">27</td>
+      <td class="col-name">Parris-Miller, Cody</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="inprogress" data-store="Moses Lake">
+      <td class="col-num">28</td>
+      <td class="col-name">Wallace, Paden</td>
+      <td>Sales</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr></tbody>
+    </table></div>
+  </section>
+  <section>
+    <div class="section-title">All Employees<div class="rule"></div></div>
+    <div class="section-desc">Full list of forklift certification records. Click a column header to sort, or filter/search below. A low completion % next to a certificate expiration date is fine &mdash; that's a valid cert with a renewal course in progress.</div>
+    <div class="legend">
+      <span><span class="badge badge-notcert">Not Certified</span> no completion, no certificate</span>
+      <span><span class="badge badge-inprogress">In Progress</span> partial completion, no certificate yet</span>
+      <span><span class="badge badge-expired">Expired</span> certificate on file, past its expiration</span>
+      <span><span class="badge badge-expiring">Expiring Soon</span> valid, expires within 90 days</span>
+      <span><span class="badge badge-current">Current</span> valid, more than 90 days remaining</span>
+    </div>
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-btn active" data-filter="all">All (86)</button>
+      <button class="filter-btn" data-filter="notcert">Not Certified (25)</button>
+      <button class="filter-btn" data-filter="inprogress">In Progress (3)</button>
+      <button class="filter-btn" data-filter="expired">Expired (0)</button>
+      <button class="filter-btn" data-filter="expiring">Expiring Soon (0)</button>
+      <button class="filter-btn" data-filter="current">Current (58)</button>
+      <input type="text" id="search-input" class="search-box" placeholder="Search name, store, department...">
+    </div>
+    <div class="table-wrap"><table class="data-table" id="tbl-all">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-all',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-all',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-all',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-all',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-all',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-all',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="current" data-store="Ontario">
+      <td class="col-num">1</td>
+      <td class="col-name">Adams, Brittney</td>
+      <td>Parts</td>
+      <td>Ontario</td>
+      <td data-sort="2029-04-14">Apr 14, 2029<div class="sub-note">in 961 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">2</td>
+      <td class="col-name">Alvarado, Lupe</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="inprogress" data-store="Marsing">
+      <td class="col-num">3</td>
+      <td class="col-name">Anderson, Patrick</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">4</td>
+      <td class="col-name">Bair, Cody</td>
+      <td>Sales</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">5</td>
+      <td class="col-name">Belloli, Taylor</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">6</td>
+      <td class="col-name">Bingham, Peter</td>
+      <td>Sales</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">7</td>
+      <td class="col-name">Black, Alan</td>
+      <td>Sales</td>
+      <td>Sugar City</td>
+      <td data-sort="2029-06-25">Jun 25, 2029<div class="sub-note">in 1033 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">8</td>
+      <td class="col-name">Black, Brad</td>
+      <td>Parts</td>
+      <td>Sugar City</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">9</td>
+      <td class="col-name">Briggs, Con</td>
+      <td>Sales</td>
+      <td>Sugar City</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Blackfoot">
+      <td class="col-num">10</td>
+      <td class="col-name">Brooks, Kip</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">11</td>
+      <td class="col-name">Bruinekool, James</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">12</td>
+      <td class="col-name">Buck, Logan</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">13</td>
+      <td class="col-name">Cady, Dylan</td>
+      <td>Sales</td>
+      <td>Marsing</td>
+      <td data-sort="2029-03-26">Mar 26, 2029<div class="sub-note">in 942 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Ontario">
+      <td class="col-num">14</td>
+      <td class="col-name">Capron, Dan</td>
+      <td>Sales</td>
+      <td>Ontario</td>
+      <td data-sort="2029-02-04">Feb 4, 2029<div class="sub-note">in 892 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">15</td>
+      <td class="col-name">Carver, Aiden</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">16</td>
+      <td class="col-name">Castillo, Simon</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="2029-07-19">Jul 19, 2029<div class="sub-note">in 1057 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Twin Falls">
+      <td class="col-num">17</td>
+      <td class="col-name">Coriell, Mark</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">18</td>
+      <td class="col-name">Cravens, Jon</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">19</td>
+      <td class="col-name">Crowner, Robin</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">20</td>
+      <td class="col-name">Damon, Michael</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">21</td>
+      <td class="col-name">Danz, Paul</td>
+      <td>Trucking</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">22</td>
+      <td class="col-name">Davis, Brenden</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">23</td>
+      <td class="col-name">Dolcini, Chris</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2029-01-27">Jan 27, 2029<div class="sub-note">in 884 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">24</td>
+      <td class="col-name">Dooling, Matthew</td>
+      <td>Administration</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-13">Apr 13, 2029<div class="sub-note">in 960 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pullman">
+      <td class="col-num">25</td>
+      <td class="col-name">Druffel, Brad</td>
+      <td>Parts</td>
+      <td>Pullman</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">26</td>
+      <td class="col-name">Dub, Kelly</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">27</td>
+      <td class="col-name">Escamilla, Jovanny</td>
+      <td>Parts</td>
+      <td>Moses Lake</td>
+      <td data-sort="2029-05-06">May 6, 2029<div class="sub-note">in 983 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">28</td>
+      <td class="col-name">Figueroa-Gomez, Jose</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">29</td>
+      <td class="col-name">Friend, Dave</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="2029-05-25">May 25, 2029<div class="sub-note">in 1002 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">30</td>
+      <td class="col-name">Gardiner, Jeffrey</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">31</td>
+      <td class="col-name">Gentry, Rich</td>
+      <td>Parts</td>
+      <td>Marsing</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">32</td>
+      <td class="col-name">Gilbert, Dakota</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">33</td>
+      <td class="col-name">Groff, Anthony</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">34</td>
+      <td class="col-name">Haider, Ken</td>
+      <td>Service</td>
+      <td>Field Support</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">35</td>
+      <td class="col-name">Hansen, Joyce</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">36</td>
+      <td class="col-name">Hanson, Chayse</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">37</td>
+      <td class="col-name">Hanson, Terry</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Blackfoot">
+      <td class="col-num">38</td>
+      <td class="col-name">Hatch, Russell</td>
+      <td>Trucking</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">39</td>
+      <td class="col-name">Hermes, Sean</td>
+      <td>Sales</td>
+      <td>Blackfoot</td>
+      <td data-sort="2029-06-16">Jun 16, 2029<div class="sub-note">in 1024 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">40</td>
+      <td class="col-name">Hotchkiss, Kaleb</td>
+      <td>Sales</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-13">Apr 13, 2029<div class="sub-note">in 960 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">41</td>
+      <td class="col-name">Hunsaker, Ben</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">42</td>
+      <td class="col-name">Kendall, Andrew</td>
+      <td>Service</td>
+      <td>Field Support</td>
+      <td data-sort="2028-12-09">Dec 9, 2028<div class="sub-note">in 835 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">43</td>
+      <td class="col-name">Kincaid, Mike</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">44</td>
+      <td class="col-name">Lemmon, Zane</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">45</td>
+      <td class="col-name">Love, Phillip</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">46</td>
+      <td class="col-name">Martin, Gary</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2029-01-14">Jan 14, 2029<div class="sub-note">in 871 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">47</td>
+      <td class="col-name">Martinez, Jaime</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">48</td>
+      <td class="col-name">Maxfield, Darius</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">49</td>
+      <td class="col-name">McGuire, Marsha</td>
+      <td>Parts</td>
+      <td>Marsing</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">50</td>
+      <td class="col-name">McNall, Ken</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2029-02-25">Feb 25, 2029<div class="sub-note">in 913 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Sugar City">
+      <td class="col-num">51</td>
+      <td class="col-name">Merrill, Dugan</td>
+      <td>Sales</td>
+      <td>Sugar City</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Walla Walla">
+      <td class="col-num">52</td>
+      <td class="col-name">Monyak, Jon</td>
+      <td>Parts</td>
+      <td>Walla Walla</td>
+      <td data-sort="2029-01-29">Jan 29, 2029<div class="sub-note">in 886 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">53</td>
+      <td class="col-name">Mothershead, BJ</td>
+      <td>Parts</td>
+      <td>Moses Lake</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">54</td>
+      <td class="col-name">Nichols, Morgan</td>
+      <td>Parts</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">55</td>
+      <td class="col-name">Orton, Kevin</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="inprogress" data-store="Blackfoot">
+      <td class="col-num">56</td>
+      <td class="col-name">Parris-Miller, Cody</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">57</td>
+      <td class="col-name">Perkins, Anna</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">58</td>
+      <td class="col-name">Pfeifer, Mckinnon</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">59</td>
+      <td class="col-name">Poole, Tonya</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">60</td>
+      <td class="col-name">Price, Dylan</td>
+      <td>Parts</td>
+      <td>Field Support</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">61</td>
+      <td class="col-name">Ramirez, Rudy</td>
+      <td>Parts</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">62</td>
+      <td class="col-name">Roloff, Jacob</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="2029-02-26">Feb 26, 2029<div class="sub-note">in 914 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">63</td>
+      <td class="col-name">Rosman, Rick</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="2029-01-26">Jan 26, 2029<div class="sub-note">in 883 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">64</td>
+      <td class="col-name">Scafe, John</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">65</td>
+      <td class="col-name">Schagel, Addison</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">66</td>
+      <td class="col-name">Scott, Jaycob</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">67</td>
+      <td class="col-name">Sewell, Rick</td>
+      <td>Administration</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">68</td>
+      <td class="col-name">Sheen, Ray</td>
+      <td>Parts</td>
+      <td>Twin Falls</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">69</td>
+      <td class="col-name">Smith, Jessica</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2029-01-13">Jan 13, 2029<div class="sub-note">in 870 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">70</td>
+      <td class="col-name">Spencer, Casey</td>
+      <td>Trucking</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">71</td>
+      <td class="col-name">Sugai, Anthony</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-14">Apr 14, 2029<div class="sub-note">in 961 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">72</td>
+      <td class="col-name">Swenson, Patrick</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-14">Apr 14, 2029<div class="sub-note">in 961 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">73</td>
+      <td class="col-name">Tauveve, Aaron</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Pullman">
+      <td class="col-num">74</td>
+      <td class="col-name">Thompson, Devin</td>
+      <td>Parts</td>
+      <td>Pullman</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">75</td>
+      <td class="col-name">Trumpy, Brad</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">76</td>
+      <td class="col-name">Upton, George</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">77</td>
+      <td class="col-name">Valencia Villarreal, Victor</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">78</td>
+      <td class="col-name">Volle, Alex</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="2029-08-04">Aug 4, 2029<div class="sub-note">in 1073 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">79</td>
+      <td class="col-name">Walker, Lance</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="inprogress" data-store="Moses Lake">
+      <td class="col-num">80</td>
+      <td class="col-name">Wallace, Paden</td>
+      <td>Sales</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">81</td>
+      <td class="col-name">Walther, Brenna</td>
+      <td>Sales</td>
+      <td>Blackfoot</td>
+      <td data-sort="2029-06-15">Jun 15, 2029<div class="sub-note">in 1023 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">82</td>
+      <td class="col-name">Weimer, Jason</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">83</td>
+      <td class="col-name">Wheeler, John</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Ontario">
+      <td class="col-num">84</td>
+      <td class="col-name">Whittaker, Michelle</td>
+      <td>Parts</td>
+      <td>Ontario</td>
+      <td data-sort="2029-01-15">Jan 15, 2029<div class="sub-note">in 872 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">85</td>
+      <td class="col-name">Willman, Kevin</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Marsing">
+      <td class="col-num">86</td>
+      <td class="col-name">Withington, Takoda</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr></tbody>
+    </table></div>
+  </section>
+  <section class="tab-group">
+    <div class="section-title">By Store<div class="rule"></div></div>
+    <div class="section-desc">Select a store to see forklift certification status for that location. A red count flags employees without a valid certificate; a gold count flags certificates expiring soon only.</div>
+    <div class="tab-bar"><button class="tab-btn active" data-tab="store-0">Field Support <span class="tab-count">8</span><span class="tab-flag">3</span></button><button class="tab-btn " data-tab="store-1">Twin Falls <span class="tab-count">8</span><span class="tab-flag">1</span></button><button class="tab-btn " data-tab="store-2">Heyburn <span class="tab-count">11</span><span class="tab-flag">5</span></button><button class="tab-btn " data-tab="store-3">Sugar City <span class="tab-count">10</span><span class="tab-flag">1</span></button><button class="tab-btn " data-tab="store-4">Marsing <span class="tab-count">10</span><span class="tab-flag">2</span></button><button class="tab-btn " data-tab="store-5">Blackfoot <span class="tab-count">11</span><span class="tab-flag">3</span></button><button class="tab-btn " data-tab="store-6">Pasco <span class="tab-count">14</span><span class="tab-flag">8</span></button><button class="tab-btn " data-tab="store-7">Moses Lake <span class="tab-count">8</span><span class="tab-flag">4</span></button><button class="tab-btn " data-tab="store-8">Walla Walla <span class="tab-count">1</span></button><button class="tab-btn " data-tab="store-9">Ontario <span class="tab-count">3</span></button><button class="tab-btn " data-tab="store-10">Pullman <span class="tab-count">2</span><span class="tab-flag">1</span></button></div>
+    <div class="tab-panel active" id="store-0">
+      <div class="loc-summary">8 employees at Field Support &middot; 3 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-0">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-0',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-0',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-0',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-0',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-0',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-0',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">1</td>
+      <td class="col-name">Perkins, Anna</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">2</td>
+      <td class="col-name">Schagel, Addison</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Field Support">
+      <td class="col-num">3</td>
+      <td class="col-name">Spencer, Casey</td>
+      <td>Trucking</td>
+      <td>Field Support</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">4</td>
+      <td class="col-name">Haider, Ken</td>
+      <td>Service</td>
+      <td>Field Support</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">5</td>
+      <td class="col-name">Kendall, Andrew</td>
+      <td>Service</td>
+      <td>Field Support</td>
+      <td data-sort="2028-12-09">Dec 9, 2028<div class="sub-note">in 835 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">6</td>
+      <td class="col-name">Price, Dylan</td>
+      <td>Parts</td>
+      <td>Field Support</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">7</td>
+      <td class="col-name">Roloff, Jacob</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="2029-02-26">Feb 26, 2029<div class="sub-note">in 914 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Field Support">
+      <td class="col-num">8</td>
+      <td class="col-name">Volle, Alex</td>
+      <td>Administration</td>
+      <td>Field Support</td>
+      <td data-sort="2029-08-04">Aug 4, 2029<div class="sub-note">in 1073 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-1">
+      <div class="loc-summary">8 employees at Twin Falls &middot; 1 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-1">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-1',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-1',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-1',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-1',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-1',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-1',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Twin Falls">
+      <td class="col-num">1</td>
+      <td class="col-name">Coriell, Mark</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">2</td>
+      <td class="col-name">Alvarado, Lupe</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">3</td>
+      <td class="col-name">Hanson, Chayse</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">4</td>
+      <td class="col-name">Hanson, Terry</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">5</td>
+      <td class="col-name">Ramirez, Rudy</td>
+      <td>Parts</td>
+      <td>Twin Falls</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">6</td>
+      <td class="col-name">Sheen, Ray</td>
+      <td>Parts</td>
+      <td>Twin Falls</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">7</td>
+      <td class="col-name">Tauveve, Aaron</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Twin Falls">
+      <td class="col-num">8</td>
+      <td class="col-name">Walker, Lance</td>
+      <td>Service</td>
+      <td>Twin Falls</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-2">
+      <div class="loc-summary">11 employees at Heyburn &middot; 5 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-2">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-2',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-2',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-2',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-2',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-2',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-2',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">1</td>
+      <td class="col-name">Bair, Cody</td>
+      <td>Sales</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">2</td>
+      <td class="col-name">Bingham, Peter</td>
+      <td>Sales</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">3</td>
+      <td class="col-name">Kincaid, Mike</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">4</td>
+      <td class="col-name">Maxfield, Darius</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Heyburn">
+      <td class="col-num">5</td>
+      <td class="col-name">Orton, Kevin</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">6</td>
+      <td class="col-name">Belloli, Taylor</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">7</td>
+      <td class="col-name">Buck, Logan</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">8</td>
+      <td class="col-name">Martin, Gary</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2029-01-14">Jan 14, 2029<div class="sub-note">in 871 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">9</td>
+      <td class="col-name">Pfeifer, Mckinnon</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">10</td>
+      <td class="col-name">Poole, Tonya</td>
+      <td>Service</td>
+      <td>Heyburn</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Heyburn">
+      <td class="col-num">11</td>
+      <td class="col-name">Smith, Jessica</td>
+      <td>Parts</td>
+      <td>Heyburn</td>
+      <td data-sort="2029-01-13">Jan 13, 2029<div class="sub-note">in 870 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-3">
+      <div class="loc-summary">10 employees at Sugar City &middot; 1 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-3">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-3',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-3',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-3',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-3',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-3',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-3',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Sugar City">
+      <td class="col-num">1</td>
+      <td class="col-name">Merrill, Dugan</td>
+      <td>Sales</td>
+      <td>Sugar City</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">2</td>
+      <td class="col-name">Black, Alan</td>
+      <td>Sales</td>
+      <td>Sugar City</td>
+      <td data-sort="2029-06-25">Jun 25, 2029<div class="sub-note">in 1033 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">3</td>
+      <td class="col-name">Black, Brad</td>
+      <td>Parts</td>
+      <td>Sugar City</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">4</td>
+      <td class="col-name">Briggs, Con</td>
+      <td>Sales</td>
+      <td>Sugar City</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">5</td>
+      <td class="col-name">Dolcini, Chris</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2029-01-27">Jan 27, 2029<div class="sub-note">in 884 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">6</td>
+      <td class="col-name">Hansen, Joyce</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">7</td>
+      <td class="col-name">Lemmon, Zane</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">8</td>
+      <td class="col-name">Nichols, Morgan</td>
+      <td>Parts</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">9</td>
+      <td class="col-name">Scafe, John</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Sugar City">
+      <td class="col-num">10</td>
+      <td class="col-name">Weimer, Jason</td>
+      <td>Service</td>
+      <td>Sugar City</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-4">
+      <div class="loc-summary">10 employees at Marsing &middot; 2 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-4">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-4',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-4',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-4',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-4',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-4',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-4',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Marsing">
+      <td class="col-num">1</td>
+      <td class="col-name">Withington, Takoda</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="inprogress" data-store="Marsing">
+      <td class="col-num">2</td>
+      <td class="col-name">Anderson, Patrick</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">3</td>
+      <td class="col-name">Cady, Dylan</td>
+      <td>Sales</td>
+      <td>Marsing</td>
+      <td data-sort="2029-03-26">Mar 26, 2029<div class="sub-note">in 942 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">4</td>
+      <td class="col-name">Dooling, Matthew</td>
+      <td>Administration</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-13">Apr 13, 2029<div class="sub-note">in 960 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">5</td>
+      <td class="col-name">Friend, Dave</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="2029-05-25">May 25, 2029<div class="sub-note">in 1002 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">6</td>
+      <td class="col-name">Gentry, Rich</td>
+      <td>Parts</td>
+      <td>Marsing</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">7</td>
+      <td class="col-name">Hotchkiss, Kaleb</td>
+      <td>Sales</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-13">Apr 13, 2029<div class="sub-note">in 960 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">8</td>
+      <td class="col-name">McGuire, Marsha</td>
+      <td>Parts</td>
+      <td>Marsing</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">9</td>
+      <td class="col-name">Sugai, Anthony</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-14">Apr 14, 2029<div class="sub-note">in 961 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Marsing">
+      <td class="col-num">10</td>
+      <td class="col-name">Swenson, Patrick</td>
+      <td>Service</td>
+      <td>Marsing</td>
+      <td data-sort="2029-04-14">Apr 14, 2029<div class="sub-note">in 961 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-5">
+      <div class="loc-summary">11 employees at Blackfoot &middot; 3 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-5">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-5',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-5',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-5',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-5',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-5',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-5',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Blackfoot">
+      <td class="col-num">1</td>
+      <td class="col-name">Brooks, Kip</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Blackfoot">
+      <td class="col-num">2</td>
+      <td class="col-name">Hatch, Russell</td>
+      <td>Trucking</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="inprogress" data-store="Blackfoot">
+      <td class="col-num">3</td>
+      <td class="col-name">Parris-Miller, Cody</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">4</td>
+      <td class="col-name">Figueroa-Gomez, Jose</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">5</td>
+      <td class="col-name">Gilbert, Dakota</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">6</td>
+      <td class="col-name">Groff, Anthony</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">7</td>
+      <td class="col-name">Hermes, Sean</td>
+      <td>Sales</td>
+      <td>Blackfoot</td>
+      <td data-sort="2029-06-16">Jun 16, 2029<div class="sub-note">in 1024 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">8</td>
+      <td class="col-name">Hunsaker, Ben</td>
+      <td>Parts</td>
+      <td>Blackfoot</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">9</td>
+      <td class="col-name">Martinez, Jaime</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">10</td>
+      <td class="col-name">Upton, George</td>
+      <td>Service</td>
+      <td>Blackfoot</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Blackfoot">
+      <td class="col-num">11</td>
+      <td class="col-name">Walther, Brenna</td>
+      <td>Sales</td>
+      <td>Blackfoot</td>
+      <td data-sort="2029-06-15">Jun 15, 2029<div class="sub-note">in 1023 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-6">
+      <div class="loc-summary">14 employees at Pasco &middot; 8 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-6">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-6',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-6',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-6',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-6',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-6',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-6',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">1</td>
+      <td class="col-name">Cravens, Jon</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">2</td>
+      <td class="col-name">Crowner, Robin</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">3</td>
+      <td class="col-name">Danz, Paul</td>
+      <td>Trucking</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">4</td>
+      <td class="col-name">Gardiner, Jeffrey</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">5</td>
+      <td class="col-name">Scott, Jaycob</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">6</td>
+      <td class="col-name">Valencia Villarreal, Victor</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">7</td>
+      <td class="col-name">Wheeler, John</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Pasco">
+      <td class="col-num">8</td>
+      <td class="col-name">Willman, Kevin</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">9</td>
+      <td class="col-name">Bruinekool, James</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">10</td>
+      <td class="col-name">Damon, Michael</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>0%<div class="sub-note">renewal in progress</div></td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">11</td>
+      <td class="col-name">Davis, Brenden</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">12</td>
+      <td class="col-name">Love, Phillip</td>
+      <td>Parts</td>
+      <td>Pasco</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">13</td>
+      <td class="col-name">McNall, Ken</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2029-02-25">Feb 25, 2029<div class="sub-note">in 913 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Pasco">
+      <td class="col-num">14</td>
+      <td class="col-name">Trumpy, Brad</td>
+      <td>Service</td>
+      <td>Pasco</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-7">
+      <div class="loc-summary">8 employees at Moses Lake &middot; 4 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-7">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-7',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-7',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-7',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-7',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-7',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-7',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">1</td>
+      <td class="col-name">Carver, Aiden</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">2</td>
+      <td class="col-name">Dub, Kelly</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="notcert" data-store="Moses Lake">
+      <td class="col-num">3</td>
+      <td class="col-name">Sewell, Rick</td>
+      <td>Administration</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="inprogress" data-store="Moses Lake">
+      <td class="col-num">4</td>
+      <td class="col-name">Wallace, Paden</td>
+      <td>Sales</td>
+      <td>Moses Lake</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>50%</td>
+      <td data-sort="2"><span class="badge badge-inprogress">In Progress</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">5</td>
+      <td class="col-name">Castillo, Simon</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="2029-07-19">Jul 19, 2029<div class="sub-note">in 1057 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">6</td>
+      <td class="col-name">Escamilla, Jovanny</td>
+      <td>Parts</td>
+      <td>Moses Lake</td>
+      <td data-sort="2029-05-06">May 6, 2029<div class="sub-note">in 983 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">7</td>
+      <td class="col-name">Mothershead, BJ</td>
+      <td>Parts</td>
+      <td>Moses Lake</td>
+      <td data-sort="2027-01-08">Jan 8, 2027<div class="sub-note">in 134 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Moses Lake">
+      <td class="col-num">8</td>
+      <td class="col-name">Rosman, Rick</td>
+      <td>Service</td>
+      <td>Moses Lake</td>
+      <td data-sort="2029-01-26">Jan 26, 2029<div class="sub-note">in 883 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-8">
+      <div class="loc-summary">1 employee at Walla Walla</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-8">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-8',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-8',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-8',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-8',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-8',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-8',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="current" data-store="Walla Walla">
+      <td class="col-num">1</td>
+      <td class="col-name">Monyak, Jon</td>
+      <td>Parts</td>
+      <td>Walla Walla</td>
+      <td data-sort="2029-01-29">Jan 29, 2029<div class="sub-note">in 886 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-9">
+      <div class="loc-summary">3 employees at Ontario</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-9">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-9',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-9',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-9',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-9',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-9',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-9',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="current" data-store="Ontario">
+      <td class="col-num">1</td>
+      <td class="col-name">Adams, Brittney</td>
+      <td>Parts</td>
+      <td>Ontario</td>
+      <td data-sort="2029-04-14">Apr 14, 2029<div class="sub-note">in 961 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Ontario">
+      <td class="col-num">2</td>
+      <td class="col-name">Capron, Dan</td>
+      <td>Sales</td>
+      <td>Ontario</td>
+      <td data-sort="2029-02-04">Feb 4, 2029<div class="sub-note">in 892 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr><tr data-status="current" data-store="Ontario">
+      <td class="col-num">3</td>
+      <td class="col-name">Whittaker, Michelle</td>
+      <td>Parts</td>
+      <td>Ontario</td>
+      <td data-sort="2029-01-15">Jan 15, 2029<div class="sub-note">in 872 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div><div class="tab-panel " id="store-10">
+      <div class="loc-summary">2 employees at Pullman &middot; 1 without a valid certificate</div>
+      <div class="table-wrap"><table class="data-table" id="tbl-store-10">
+      <thead><tr>
+        <th class="col-num">#</th>
+        <th onclick="sortTable('tbl-store-10',1)">Employee<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-10',2)">Department<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-10',3)">Store<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-10',4)">Certificate Expiration<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-10',5)">% Completed<span class="sort-arrow"></span></th>
+        <th onclick="sortTable('tbl-store-10',6)">Status<span class="sort-arrow"></span></th>
+      </tr></thead>
+      <tbody><tr data-status="notcert" data-store="Pullman">
+      <td class="col-num">1</td>
+      <td class="col-name">Thompson, Devin</td>
+      <td>Parts</td>
+      <td>Pullman</td>
+      <td data-sort="9999-99-99">&mdash;</td>
+      <td>0%</td>
+      <td data-sort="0"><span class="badge badge-notcert">Not Certified</span></td>
+    </tr><tr data-status="current" data-store="Pullman">
+      <td class="col-num">2</td>
+      <td class="col-name">Druffel, Brad</td>
+      <td>Parts</td>
+      <td>Pullman</td>
+      <td data-sort="2028-01-08">Jan 8, 2028<div class="sub-note">in 499 days</div></td>
+      <td>100%</td>
+      <td data-sort="4"><span class="badge badge-current">Current</span></td>
+    </tr></tbody>
+    </table></div>
+    </div>
+  </section>
+</main>
+<footer>Generated for AGRI-SERVICE, LLC &middot; Source: Forklift_Expiration_Report_6a8f9b061f34c.csv &middot; Report built Aug 27, 2026</footer>
+<script>
+function sortTable(id, col) {
+  var table = document.getElementById(id);
+  var tbody = table.tBodies[0];
+  var rows = Array.prototype.slice.call(tbody.rows);
+  var asc = table.getAttribute('data-sort-col') != col || table.getAttribute('data-sort-dir') !== 'asc';
+  rows.sort(function(a, b) {
+    var av = a.cells[col].getAttribute('data-sort') || a.cells[col].textContent.trim();
+    var bv = b.cells[col].getAttribute('data-sort') || b.cells[col].textContent.trim();
+    var an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) { return asc ? an - bn : bn - an; }
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  rows.forEach(function(r) { tbody.appendChild(r); });
+  table.setAttribute('data-sort-col', col);
+  table.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+}
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var tabId = btn.dataset.tab;
+    var group = btn.closest('.tab-group') || document;
+    group.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    group.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  });
+});
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var status = btn.dataset.filter;
+    var table = document.getElementById('tbl-all');
+    document.querySelectorAll('#filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    Array.prototype.slice.call(table.tBodies[0].rows).forEach(function(r) {
+      var show = (status === 'all') || (r.getAttribute('data-status') === status);
+      r.style.display = show ? '' : 'none';
+    });
+    applySearch();
+  });
+});
+function applySearch() {
+  var q = document.getElementById('search-input').value.toLowerCase();
+  var table = document.getElementById('tbl-all');
+  var activeFilter = document.querySelector('#filter-bar .filter-btn.active').dataset.filter;
+  Array.prototype.slice.call(table.tBodies[0].rows).forEach(function(r) {
+    var matchesFilter = (activeFilter === 'all') || (r.getAttribute('data-status') === activeFilter);
+    var matchesSearch = r.textContent.toLowerCase().indexOf(q) !== -1;
+    r.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
+  });
+}
+document.getElementById('search-input').addEventListener('input', applySearch);
+</script>
+</body></html>
